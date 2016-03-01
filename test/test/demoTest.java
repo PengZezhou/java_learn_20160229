@@ -54,7 +54,6 @@ public class demoTest extends testDemo{
 		try {
 			bytes = d.file2buf(file);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
