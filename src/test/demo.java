@@ -38,8 +38,8 @@ public class demo {
 			t[i].value = Integer.toString(i);
 		}
 		
-		t[0].left = t[1];//								0
-		t[0].right = t[2];//						  /   \	
+		t[0].left = t[1];//				0
+		t[0].right = t[2];//		              /   \	
 		t[1].left = t[3];//                         1       2
 		t[1].right = t[4];//                      /  \      /  \
 		t[2].left = t[5];//                     3    4     5    6
