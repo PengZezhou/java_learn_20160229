@@ -71,33 +71,35 @@ public class demo {
 	}
 
 	/**
-	 * 将一个整数转换为16进制的字符串
+	 * 将一个整数转换为16进制的字符串，如果输入为负数则返回null
 	 * 
 	 * <pre>
 	 * String s = intToHex(17);
 	 * </pre>
-	 * @param 一个整数 int
+	 * @param 一个整数 
 	 * @return String 16进制的字符串
 	 */
 	public String intToHex(int n) {
-		StringBuilder str = new StringBuilder(8); // 待返回值
-		// 16进制字符集判断负数的场合
+		StringBuilder str = new StringBuilder(11);
+		str.append("0X00000000H");
+
 		if (n < 0) {
-			str.append('-');
+			log.log(Level.INFO, "不接收转换负数" + n);
+			return null;
 		}
-		int num = Math.abs(n); // 保存10进制数的绝对值
-		// int to hex转换逻辑
-		for(int i=7;i>=0;i--) {
-			str.setCharAt(i,HEX_CHARS[num & 15]);
-			num >>>= 4;
-			if (num == 0) {
-				str.setCharAt(i,'0');
+		int num = Math.abs(n);
+		for (int i = 9; i >= 2; i--) {
+			if (num != 0) {
+				str.setCharAt(i, HEX_CHARS[num & 15]);
+				num >>>= 4;
+			} else {
+				break;
 			}
 		}
-		
+		log.log(Level.INFO, n + "转16进制" + str + "正常结束");
 		return str.toString();
 	}
-	
+
 	/**
 	 * 返回树tree的第n层的所有节点值，并且输出顺序为从左到右
 	 * @param tree 树顶层节点

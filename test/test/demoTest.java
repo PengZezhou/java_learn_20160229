@@ -3,7 +3,6 @@ package test;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import junit.framework.Assert;
 
 @SuppressWarnings("deprecation")
@@ -53,8 +52,7 @@ public class demoTest extends testDemo{
 	 * byte[] b = start2Buf(new File("D:\tmp.txt"))
 	 * </pre>
 	 * 
-	 * @param file
-	 *            文件对象
+	 * @param file 文件对象     
 	 * @return byte[] byte数组
 	 * 
 	 */
@@ -78,17 +76,23 @@ public class demoTest extends testDemo{
 	 * 测试方法：整数转换为16进制的字符
 	 */
 	public void testIntToHex() {
-		System.out.println("// second test method code:intToHex");
-		demo d = new demo();
-		
-		int numInt = 29;
-		System.out.println("int:" + numInt);
-		String s = d.intToHex(numInt);
-		
-		Assert.assertEquals("1D", s.toString());
-		System.out.println("hex:" + s);
+		log.log(Level.INFO, "IntToHex> 调试开始");
+
+		log.log(Level.INFO, "测试用例1");
+		Assert.assertEquals("0X00000936H", d.intToHex(2358));
+
+		log.log(Level.INFO, "测试用例2");
+		Assert.assertEquals("0X00000000H", d.intToHex(0));
+
+		log.log(Level.INFO, "测试用例3");
+		Assert.assertEquals("0X7FFFFFFFH", d.intToHex(Integer.MAX_VALUE));
+
+		log.log(Level.INFO, "测试用例4");
+		Assert.assertEquals(null, d.intToHex(Integer.MIN_VALUE));
+
+		log.log(Level.INFO, "IntToHex> 调试结束");
 	}
-	
+
 	/**
 	 * 测试方法：返回树tree的第n层的所有节点值，并且输出顺序为从左到右
 	 */
