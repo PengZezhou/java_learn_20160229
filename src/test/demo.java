@@ -1,9 +1,11 @@
 package test;
 
-import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * 练习题，代码实现
@@ -12,80 +14,88 @@ import java.io.IOException;
  */
 public class demo {
 
-	/**
-	 * 测试函数入口
-	 * @param args
-	 * @throws IOException
-	 */
-	public static void main(String[] args) throws IOException {
-		// first test method code
-		//extracted1();
+	// 日志记录对象
+	private Logger log = Global.getInstance().LOG;
 
-		// second test method code
-		//extracted2();
-		
-		// third test method code
-		//extracted3();
-	}
+	// 16进制字符数组
+	private static char[] HEX_CHARS = { '0', '1', '2', '3', '4', '5', '6', '7',
+			'8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
 	/**
-	 * 将文件内容转换成byte数组返回,如果文件不存在或者读入错误返回null
+	 * 将文件内容转换成byte数组返回,如果文件不存在、读入错误、文件大小超过2G则返回null
 	 * 
-	 * @param 文件对象
+	 * <pre>
+	 * byte[] b = file2buf(new File(&quot;D:\tmp.txt&quot;));
+	 * </pre>
+	 * 
+	 * @param 文件对象 File
 	 * @return byte数组
 	 * @throws IOException
 	 *             文件输入输出流异常
 	 * 
 	 */
 	public byte[] file2buf(File fobj) throws IOException {
-		BufferedOutputStream bos = null; // 新建一个输出流
-		FileOutputStream fos = null; // 文件包装输出流
-		byte[] bytes = null; // 字节数组
+		if (fobj == null || fobj.isDirectory() || !fobj.exists()
+				|| fobj.length() > (1024 * 1024 * 1024 * 2 - 1)) {
+			log.log(Level.INFO, "输入参数为null、不是文件、文件不存在或者文件大小超过2G");
+			return null;
+		}
+
+		log.log(Level.INFO, "文件开始转换为字节数组...");
+		FileInputStream fis = null;
+		ByteArrayOutputStream bos = null;
+		byte[] bytes = null;
 
 		try {
-			bytes = new byte[(int) fobj.length()];
-			fos = new FileOutputStream(fobj);
-			bos = new BufferedOutputStream(fos);
-			// 流内容写入字节数组
-			bos.write(bytes);
+			fis = new FileInputStream(fobj);
+			bos = new ByteArrayOutputStream((int) fobj.length());
+			byte[] b = new byte[4096];
+			int n;
+			while ((n = fis.read(b)) != -1) {
+				bos.write(b, 0, n);
+			}
+			bytes = bos.toByteArray();
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.log(Level.INFO, "文件转换为字节数组出现异常");
 		} finally {
 			try {
+				fis.close();
 				bos.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				log.log(Level.INFO, "流关闭出现异常");
 			}
 		}
 
+		log.log(Level.INFO, "文件开始转换为字节数组结束");
 		return bytes;
 	}
 
 	/**
 	 * 将一个整数转换为16进制的字符串
 	 * 
-	 * @param 一个整数
-	 * @return 16进制的字符串
+	 * <pre>
+	 * String s = intToHex(17);
+	 * </pre>
+	 * @param 一个整数 int
+	 * @return String 16进制的字符串
 	 */
-	public StringBuilder intToHex(int n) {
-		StringBuilder str = new StringBuilder(); // 待返回值
-		char[] c = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A',
-				'B', 'C', 'D', 'E', 'F' }; 
+	public String intToHex(int n) {
+		StringBuilder str = new StringBuilder(8); // 待返回值
 		// 16进制字符集判断负数的场合
 		if (n < 0) {
 			str.append('-');
 		}
 		int num = Math.abs(n); // 保存10进制数的绝对值
 		// int to hex转换逻辑
-		while (true) {
-			str.append(c[num / 16]);
-			num %= 16;
-			if (num < 16) {
-				str.append(c[num]);
-				break;
+		for(int i=7;i>=0;i--) {
+			str.setCharAt(i,HEX_CHARS[num & 15]);
+			num >>>= 4;
+			if (num == 0) {
+				str.setCharAt(i,'0');
 			}
 		}
-		return str;
+		
+		return str.toString();
 	}
 	
 	/**

@@ -1,12 +1,94 @@
 package test;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import junit.framework.Assert;
 
 @SuppressWarnings("deprecation")
 public class demoTest extends testDemo{
+	
+	// 日志记录对象
+	private Logger log = Global.getInstance().LOG;
+	// 待测试对象
+	private demo d = new demo();
+	
+	/**
+	 * 测试方法：文件内容转换成byte数组
+	 */
+	public void testFile2buf() {
+		log.log(Level.INFO, "File2buf> 调试开始");
+		File file = null;
+
+		log.log(Level.INFO, "测试用例1");
+		file = new File(System.getProperty("user.dir")
+				+ "\\test\\test\\file.txt");
+		Assert.assertNotNull(start2Buf(file));
+
+		log.log(Level.INFO, "测试用例2");
+		file = new File(System.getProperty("user.dir") + "\\test\\test");
+		Assert.assertNull(start2Buf(file));
+
+		log.log(Level.INFO, "测试用例3");
+		file = new File(System.getProperty("user.dir")
+				+ "\\test\\test\\filetmp.txt");
+		Assert.assertNull(start2Buf(file));
+
+		log.log(Level.INFO, "测试用例4");
+		file = null;
+		Assert.assertNull(start2Buf(file));
+
+		log.log(Level.INFO, "测试用例5");
+		file = new File("D:\\MicrosoftVisualStudio2008Professional.ISO");
+		Assert.assertNull(start2Buf(file));
+
+		log.log(Level.INFO, "File2buf> 调试结束");
+	}
+
+	/**
+	 * 测试逻辑，检测路径下文件转换为byte数组
+	 * 
+	 * <pre>
+	 * byte[] b = start2Buf(new File("D:\tmp.txt"))
+	 * </pre>
+	 * 
+	 * @param file
+	 *            文件对象
+	 * @return byte[] byte数组
+	 * 
+	 */
+	private byte[] start2Buf(File file) {
+		if (file != null) {
+			log.log(Level.INFO, "文件路径：" + file.toString());
+		} else {
+			log.log(Level.INFO, "文件为null");
+		}
+
+		byte[] bytes = null;
+		try {
+			bytes = d.file2buf(file);
+		} catch (Exception e) {
+			log.log(Level.WARNING, "转换过程捕获到异常");
+		}
+		return bytes;
+	}
+
+	/**
+	 * 测试方法：整数转换为16进制的字符
+	 */
+	public void testIntToHex() {
+		System.out.println("// second test method code:intToHex");
+		demo d = new demo();
+		
+		int numInt = 29;
+		System.out.println("int:" + numInt);
+		String s = d.intToHex(numInt);
+		
+		Assert.assertEquals("1D", s.toString());
+		System.out.println("hex:" + s);
+	}
+	
 	/**
 	 * 测试方法：返回树tree的第n层的所有节点值，并且输出顺序为从左到右
 	 */
@@ -41,38 +123,4 @@ public class demoTest extends testDemo{
 		Assert.assertEquals(8, tmp);
 	}
 
-	/**
-	 * 测试方法：文件内容转换成byte数组
-	 */
-	public void testFile2buf() {
-		System.out.println("// first test method code:file2buf");
-		demo d = new demo();
-		
-		File file = new File(System.getProperty("user.dir") + "Dog.java");
-		System.out.println("file:" + file.toString());
-		byte[] bytes = null;
-		try {
-			bytes = d.file2buf(file);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		Assert.assertNotNull(bytes);
-		System.out.println("buf:" + bytes);
-	}
-
-	/**
-	 * 测试方法：整数转换为16进制的字符
-	 */
-	public void testIntToHex() {
-		System.out.println("// second test method code:intToHex");
-		demo d = new demo();
-		
-		int numInt = 29;
-		System.out.println("int:" + numInt);
-		StringBuilder s = d.intToHex(numInt);
-		
-		Assert.assertEquals("1D", s.toString());
-		System.out.println("hex:" + s);
-	}
 }
