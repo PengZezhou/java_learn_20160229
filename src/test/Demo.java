@@ -23,8 +23,6 @@ public class Demo {
 	private static char[] HEX_CHARS = { '0', '1', '2', '3', '4', '5', '6', '7',
 			'8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
-	// 二叉树层节点保存
-	List<TNode> nodeList = new LinkedList<TNode>();
 	
 	/**
 	 * 将文件内容转换成byte数组返回,如果文件不存在、读入错误、文件大小超过2G则返回null
@@ -121,9 +119,12 @@ public class Demo {
 	 *            指定层数
 	 * @return 节点集合
 	 */
-	public List<TNode> TreeLevel(TNode tree, int n) {
+	public List<TNode> treeLevel(TNode tree, int n) {
+
+		// 二叉树层节点保存
+		List<TNode> nodeList = new LinkedList<TNode>();
 		nodeList.clear();
-		findNode(tree, n);
+		findNode(tree, n, nodeList);
 		return nodeList;
 	}
 
@@ -131,23 +132,25 @@ public class Demo {
 	 * 找到二叉树指定层节点，并存储在list中
 	 * 
 	 * <pre>
-	 * findNode(node, n);
+	 * findNode(node, n,nodeList);
 	 * </pre>
 	 * 
 	 * @param tree
 	 *            二叉树树根
 	 * @param n
 	 *            指定层
+	 * @param nodeList
+	 *            存储节点的集合
 	 * @return 二叉树不存在或左右节点不存在返回0，否则记录找到的节点数到list，返回其个数
 	 */
-	private int findNode(TNode tree, int n) {
+	private int findNode(TNode tree, int n, List<TNode> nodeList) {
 		if (tree == null || n <= 0)
 			return 0;
 		if (1 == n) {
 			nodeList.add(tree);
 			return 1;
 		}
-		return findNode(tree.getLeft(), n - 1)
-				+ findNode(tree.getRight(), n - 1);
+		return findNode(tree.getLeft(), n - 1, nodeList)
+				+ findNode(tree.getRight(), n - 1, nodeList);
 	}
 }
