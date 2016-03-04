@@ -184,10 +184,11 @@ public class DemoTest{
 			}
 			log.log(Level.INFO, ":第" + i + "层测试");
 
-			for (int j = (int) Math.pow(2, i - 1) - 1; j <= (int) (Math.pow(2,
-					i - 1) - 1) * 2
-					&& j <= Integer.valueOf(nodelist.get(nodelist.size() - 1)
-							.getValue()); j++) {
+			int start = (int) Math.pow(2, i - 1) - 1;
+			int end = (int) (Math.pow(2, i - 1) - 1) * 2;
+			int max = Integer.valueOf(nodelist.get(nodelist.size() - 1)
+					.getValue());
+			for (int j = start; j <= end && j <= max; j++) {
 				log.log(Level.INFO,
 						"j>"
 								+ j
@@ -195,9 +196,9 @@ public class DemoTest{
 								+ nodelist
 										.get(j - (int) Math.pow(2, i - 1) + 1)
 										.getValue());
-				Assert.assertEquals(String.valueOf(j),
-						nodelist.get(j - (int) Math.pow(2, i - 1) + 1)
-								.getValue());
+				int index = j - (int) Math.pow(2, i - 1) + 1;
+				Assert.assertEquals(String.valueOf(j), nodelist.get(index)
+						.getValue());
 			}
 		}
 	}
