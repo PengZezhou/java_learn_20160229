@@ -103,6 +103,7 @@ public class Demo {
 				str.setCharAt(i, HEX_CHARS[num & 15]);
 				num >>>= 4;
 			} else {
+				str.delete(2, i);
 				break;
 			} 
 		}

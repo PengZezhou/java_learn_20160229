@@ -84,10 +84,10 @@ public class DemoTest{
 		log.log(Level.INFO, "IntToHex> 调试开始");
 
 		log.log(Level.INFO, "测试用例1");
-		Assert.assertEquals("0X00000936H", d.intToHex(2358));
+		Assert.assertEquals("0X0936H", d.intToHex(2358));
 
 		log.log(Level.INFO, "测试用例2");
-		Assert.assertEquals("0X00000000H", d.intToHex(0));
+		Assert.assertEquals("0X0H", d.intToHex(0));
 
 		log.log(Level.INFO, "测试用例3");
 		Assert.assertEquals("0X7FFFFFFFH", d.intToHex(Integer.MAX_VALUE));
