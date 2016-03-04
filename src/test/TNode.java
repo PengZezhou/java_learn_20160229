@@ -9,27 +9,27 @@ public class TNode {
 	private String value;
 	private TNode left, right;
 
-	public String getValue() {
+	public final String getValue() {
 		return value;
 	}
 
-	public void setValue(String value) {
+	public final void setValue(String value) {
 		this.value = value;
 	}
 
-	public TNode getLeft() {
+	public final TNode getLeft() {
 		return left;
 	}
 
-	public void setLeft(TNode left) {
+	public final void setLeft(TNode left) {
 		this.left = left;
 	}
 
-	public TNode getRight() {
+	public final TNode getRight() {
 		return right;
 	}
 
-	public void setRight(TNode right) {
+	public final void setRight(TNode right) {
 		this.right = right;
 	}
 }
