@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 /**
  * 练习题，代码实现
+ * 
  * @author Peng.Zezhou
  *
  */
@@ -23,7 +24,6 @@ public class Demo {
 	private static char[] HEX_CHARS = { '0', '1', '2', '3', '4', '5', '6', '7',
 			'8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
-	
 	/**
 	 * 将文件内容转换成byte数组返回,如果文件不存在、读入错误、文件大小超过2G则返回null
 	 * 
@@ -68,12 +68,12 @@ public class Demo {
 			try {
 				fis.close();
 			} catch (IOException e) {
-				log.log(Level.INFO, "FileInputStream 流关闭出现异常");
+				log.log(Level.SEVERE, "FileInputStream 流关闭出现异常");
 			}
 			try {
 				bos.close();
 			} catch (IOException e) {
-				log.log(Level.INFO, "ByteArrayOutputStream 流关闭出现异常");
+				log.log(Level.SEVERE, "ByteArrayOutputStream 流关闭出现异常");
 			}
 		}
 	}
@@ -94,7 +94,7 @@ public class Demo {
 		str.append("0X00000000H");
 
 		if (n < 0) {
-			log.log(Level.INFO, "不接收转换负数" + n);
+			log.log(Level.SEVERE, "不接收转换负数" + n);
 			return null;
 		}
 		int num = Math.abs(n);
@@ -105,7 +105,7 @@ public class Demo {
 			} else {
 				str.delete(2, i);
 				break;
-			} 
+			}
 		}
 		log.log(Level.INFO, n + "转16进制" + str + "正常结束");
 		return str.toString();
@@ -125,11 +125,11 @@ public class Demo {
 	 * @return 节点集合
 	 */
 	public List<TNode> treeLevel(TNode tree, int n) {
-
 		// 二叉树层节点保存
 		List<TNode> nodeList = new LinkedList<TNode>();
-		nodeList.clear();
+		log.log(Level.INFO, "开始查找第n层节点");
 		findNode(tree, n, nodeList);
+		log.log(Level.INFO, "已保存第n层节点");
 		return nodeList;
 	}
 
@@ -137,7 +137,7 @@ public class Demo {
 	 * 找到二叉树指定层节点，并存储在list中
 	 * 
 	 * <pre>
-	 * findNode(node, n,nodeList);
+	 * findNode(node, n, nodeList);
 	 * </pre>
 	 * 
 	 * @param tree
