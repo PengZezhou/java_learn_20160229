@@ -15,7 +15,7 @@ public class DemoTest{
 	// 日志记录对象
 	private Logger log = Logger.getLogger(Demo.class.getName());
 	// 待测试对象
-	private Demo d = new Demo();
+	private Demo demo = new Demo();
 	
 	/**
 	 * 测试方法：文件内容转换成byte数组
@@ -71,7 +71,7 @@ public class DemoTest{
 
 		byte[] bytes = null;
 		try {
-			bytes = d.file2buf(file);
+			bytes = demo.file2buf(file);
 		} catch (Exception e) {
 			log.log(Level.WARNING, "转换过程捕获到异常");
 		}
@@ -86,16 +86,16 @@ public class DemoTest{
 		log.log(Level.FINE, "IntToHex> 调试开始");
 
 		log.log(Level.FINE, "测试用例1");
-		Assert.assertEquals("0X0936H", d.intToHex(2358));
+		Assert.assertEquals("0X0936H", demo.intToHex(2358));
 
 		log.log(Level.FINE, "测试用例2");
-		Assert.assertEquals("0X0H", d.intToHex(0));
+		Assert.assertEquals("0X0H", demo.intToHex(0));
 
 		log.log(Level.FINE, "测试用例3");
-		Assert.assertEquals("0X7FFFFFFFH", d.intToHex(Integer.MAX_VALUE));
+		Assert.assertEquals("0X7FFFFFFFH", demo.intToHex(Integer.MAX_VALUE));
 
 		log.log(Level.FINE, "测试用例4");
-		Assert.assertEquals(null, d.intToHex(Integer.MIN_VALUE));
+		Assert.assertEquals(null, demo.intToHex(Integer.MIN_VALUE));
 
 		log.log(Level.FINE, "IntToHex> 调试结束");
 	}
@@ -178,7 +178,7 @@ public class DemoTest{
 	private void testCaseTree1(TNode root) {
 		List<TNode> nodelist = null;
 		for (int i = 1; i <= 5; i++) {
-			nodelist = d.treeLevel(root, i);
+			nodelist = demo.treeLevel(root, i);
 			if (nodelist == null) {
 				return;
 			}
@@ -210,7 +210,7 @@ public class DemoTest{
 	 */
 	private void testCaseTree2(TNode root,int n) {
 		List<TNode> nodelist = null;
-		nodelist = d.treeLevel(root, n);
+		nodelist = demo.treeLevel(root, n);
 		Assert.assertEquals(null, nodelist);
 	}
 }

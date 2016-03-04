@@ -126,8 +126,6 @@ public class Demo {
 	 */
 	public List<TNode> treeLevel(TNode tree, int n) {
 		if (tree == null || n <= 0) {
-			// throw new
-			// IllegalArgumentException("参数非法,tree == null || n <= 0");
 			log.log(Level.SEVERE, "参数非法,tree == null || n <= 0");
 			return null;
 		}
