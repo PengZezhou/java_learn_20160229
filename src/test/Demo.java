@@ -59,19 +59,23 @@ public class Demo {
 				bos.write(b, 0, n);
 			}
 			bytes = bos.toByteArray();
+			log.log(Level.INFO, "文件开始转换为字节数组结束");
+			return bytes;
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "文件转换为字节数组出现异常");
+			return null;
 		} finally {
 			try {
 				fis.close();
+			} catch (IOException e) {
+				log.log(Level.INFO, "FileInputStream 流关闭出现异常");
+			}
+			try {
 				bos.close();
 			} catch (IOException e) {
-				log.log(Level.INFO, "流关闭出现异常");
+				log.log(Level.INFO, "ByteArrayOutputStream 流关闭出现异常");
 			}
 		}
-
-		log.log(Level.INFO, "文件开始转换为字节数组结束");
-		return bytes;
 	}
 
 	/**
