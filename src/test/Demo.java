@@ -32,7 +32,7 @@ public class Demo {
 	 * </pre>
 	 * 
 	 * @param fobj
-	 *            文件对象 File
+	 *            文件对象 File(!null)
 	 * @return byte数组
 	 * @throws IOException
 	 *             文件输入输出流异常
@@ -86,7 +86,7 @@ public class Demo {
 	 * </pre>
 	 * 
 	 * @param n
-	 *            一个整数
+	 *            一个整数(>=0)
 	 * @return String 16进制的字符串
 	 */
 	public String intToHex(int n) {
@@ -112,24 +112,34 @@ public class Demo {
 	}
 
 	/**
-	 * 返回树tree的第n层的所有节点值，并且输出顺序为从左到右
+	 * 返回树tree的第n层的所有节点值，并且输出顺序为从左到右,如果传入非法参数则返回null
 	 * 
 	 * <pre>
 	 * List&lt;TNode&gt; nl = TreeLevel(tree, n);
 	 * </pre>
 	 * 
 	 * @param tree
-	 *            树顶层节点
+	 *            树顶层节点(!null)
 	 * @param n
-	 *            指定层数
+	 *            指定层数(>0)
 	 * @return 节点集合
 	 */
 	public List<TNode> treeLevel(TNode tree, int n) {
+		if (tree == null || n <= 0) {
+			// throw new
+			// IllegalArgumentException("参数非法,tree == null || n <= 0");
+			log.log(Level.SEVERE, "参数非法,tree == null || n <= 0");
+			return null;
+		}
 		// 二叉树层节点保存
 		List<TNode> nodeList = new LinkedList<TNode>();
-		log.log(Level.INFO, "开始查找第"+n+"层节点");
+		log.log(Level.INFO, "开始查找第" + n + "层节点");
 		findNode(tree, n, nodeList);
-		log.log(Level.INFO, "已保存第"+n+"层节点");
+		if (0 == nodeList.size()) {
+			log.log(Level.SEVERE, "树的第" + n + "层没有节点");
+			return null;
+		}
+		log.log(Level.INFO, "已保存第" + n + "层节点");
 		return nodeList;
 	}
 

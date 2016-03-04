@@ -106,30 +106,26 @@ public class DemoTest{
 	@Test
 	public void testTreeLevel() {
 		log.log(Level.INFO, "treeLevel> 调试开始");
-
 		TNode root = createTree();
-		List<TNode> nodelist = null;
 
-		for (int i = 1; i <= 5; i++) {
-			nodelist = d.treeLevel(root, i);
-			log.log(Level.INFO, "测试用例"+i+":第" + i + "层测试");
+		log.log(Level.INFO, "测试用例1");
+		testCaseTree1(root);
 
-			for (int j = (int) Math.pow(2, i - 1) - 1; j <= (int) (Math.pow(2,
-					i - 1) - 1) * 2
-					&& j <= Integer.valueOf(nodelist.get(nodelist.size() - 1)
-							.getValue()); j++) {
-				log.log(Level.INFO,
-						"j>"
-								+ j
-								+ ",nodevalue>"
-								+ nodelist
-										.get(j - (int) Math.pow(2, i - 1) + 1)
-										.getValue());
-				Assert.assertEquals(String.valueOf(j),
-						nodelist.get(j - (int) Math.pow(2, i - 1) + 1)
-								.getValue());
-			}
-		}
+		log.log(Level.INFO, "测试用例2");
+		root = null;
+		testCaseTree1(root);
+
+		log.log(Level.INFO, "测试用例3");
+		root = createTree();
+		testCaseTree2(root, -1);
+
+		log.log(Level.INFO, "测试用例4");
+		root = createTree();
+		testCaseTree2(root, Integer.MAX_VALUE);
+
+		log.log(Level.INFO, "测试用例5");
+		root = createTree();
+		testCaseTree2(root, Integer.MIN_VALUE);
 
 		log.log(Level.INFO, "treeLevel> 调试结束");
 	}
@@ -173,4 +169,48 @@ public class DemoTest{
 		return t[0];
 	}
 
+	/**
+	 * 二叉树层节点查找测试用例逻辑1
+	 * 
+	 * @param root
+	 *            根节点
+	 */
+	private void testCaseTree1(TNode root) {
+		List<TNode> nodelist = null;
+		for (int i = 1; i <= 5; i++) {
+			nodelist = d.treeLevel(root, i);
+			if (nodelist == null) {
+				return;
+			}
+			log.log(Level.INFO, ":第" + i + "层测试");
+
+			for (int j = (int) Math.pow(2, i - 1) - 1; j <= (int) (Math.pow(2,
+					i - 1) - 1) * 2
+					&& j <= Integer.valueOf(nodelist.get(nodelist.size() - 1)
+							.getValue()); j++) {
+				log.log(Level.INFO,
+						"j>"
+								+ j
+								+ ",nodevalue>"
+								+ nodelist
+										.get(j - (int) Math.pow(2, i - 1) + 1)
+										.getValue());
+				Assert.assertEquals(String.valueOf(j),
+						nodelist.get(j - (int) Math.pow(2, i - 1) + 1)
+								.getValue());
+			}
+		}
+	}
+
+	/**
+	 * 二叉树层节点查找测试用例逻辑2
+	 * 
+	 * @param root
+	 *            树根节点
+	 */
+	private void testCaseTree2(TNode root,int n) {
+		List<TNode> nodelist = null;
+		nodelist = d.treeLevel(root, n);
+		Assert.assertEquals(null, nodelist);
+	}
 }
