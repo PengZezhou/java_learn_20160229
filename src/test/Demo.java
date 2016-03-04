@@ -127,9 +127,9 @@ public class Demo {
 	public List<TNode> treeLevel(TNode tree, int n) {
 		// 二叉树层节点保存
 		List<TNode> nodeList = new LinkedList<TNode>();
-		log.log(Level.INFO, "开始查找第n层节点");
+		log.log(Level.INFO, "开始查找第"+n+"层节点");
 		findNode(tree, n, nodeList);
-		log.log(Level.INFO, "已保存第n层节点");
+		log.log(Level.INFO, "已保存第"+n+"层节点");
 		return nodeList;
 	}
 

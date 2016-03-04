@@ -1,6 +1,7 @@
 package test;
 
 import java.io.File;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,7 +13,7 @@ import junit.framework.Assert;
 public class DemoTest{
 	
 	// 日志记录对象
-	private Logger log = Logger.getLogger(DemoTest.class.getName());
+	private Logger log = Logger.getLogger(Demo.class.getName());
 	// 待测试对象
 	private Demo d = new Demo();
 	
@@ -21,32 +22,33 @@ public class DemoTest{
 	 */
 	@Test
 	public void testFile2buf() {
-		log.log(Level.INFO, "File2buf> 调试开始");
+		log.setLevel(Level.FINE);
+		log.log(Level.FINE, "File2buf> 调试开始");
 		File file = null;
 
-		log.log(Level.INFO, "测试用例1" );
+		log.log(Level.FINE, "测试用例1" );
 		file = new File(System.getProperty("user.dir")
 				+ "\\test\\test\\file.txt");
 		Assert.assertNotNull(start2Buf(file));
 
-		log.log(Level.INFO, "测试用例2");
+		log.log(Level.FINE, "测试用例2");
 		file = new File(System.getProperty("user.dir") + "\\test\\test");
 		Assert.assertNull(start2Buf(file));
 
-		log.log(Level.INFO, "测试用例3");
+		log.log(Level.FINE, "测试用例3");
 		file = new File(System.getProperty("user.dir")
 				+ "\\test\\test\\filetmp.txt");
 		Assert.assertNull(start2Buf(file));
 
-		log.log(Level.INFO, "测试用例4");
+		log.log(Level.FINE, "测试用例4");
 		file = null;
 		Assert.assertNull(start2Buf(file));
 
-		log.log(Level.INFO, "测试用例5");
+		log.log(Level.FINE, "测试用例5");
 		file = new File("D:\\MicrosoftVisualStudio2008Professional.ISO");
 		Assert.assertNull(start2Buf(file));
 
-		log.log(Level.INFO, "File2buf> 调试结束");
+		log.log(Level.FINE, "File2buf> 调试结束");
 	}
 
 	/**
@@ -62,9 +64,9 @@ public class DemoTest{
 	 */
 	private byte[] start2Buf(File file) {
 		if (file != null) {
-			log.log(Level.INFO, "文件路径：" + file.toString());
+			log.log(Level.FINE, "文件路径：" + file.toString());
 		} else {
-			log.log(Level.INFO, "文件为null");
+			log.log(Level.FINE, "文件为null");
 		}
 
 		byte[] bytes = null;
@@ -81,21 +83,21 @@ public class DemoTest{
 	 */
 	@Test
 	public void testIntToHex() {
-		log.log(Level.INFO, "IntToHex> 调试开始");
+		log.log(Level.FINE, "IntToHex> 调试开始");
 
-		log.log(Level.INFO, "测试用例1");
+		log.log(Level.FINE, "测试用例1");
 		Assert.assertEquals("0X0936H", d.intToHex(2358));
 
-		log.log(Level.INFO, "测试用例2");
+		log.log(Level.FINE, "测试用例2");
 		Assert.assertEquals("0X0H", d.intToHex(0));
 
-		log.log(Level.INFO, "测试用例3");
+		log.log(Level.FINE, "测试用例3");
 		Assert.assertEquals("0X7FFFFFFFH", d.intToHex(Integer.MAX_VALUE));
 
-		log.log(Level.INFO, "测试用例4");
+		log.log(Level.FINE, "测试用例4");
 		Assert.assertEquals(null, d.intToHex(Integer.MIN_VALUE));
 
-		log.log(Level.INFO, "IntToHex> 调试结束");
+		log.log(Level.FINE, "IntToHex> 调试结束");
 	}
 
 	/**
@@ -103,34 +105,72 @@ public class DemoTest{
 	 */
 	@Test
 	public void testTreeLevel() {
-		System.out.println("// third test method code: TreeLevel");
-//		demo d = new demo();
-		
+		log.log(Level.INFO, "treeLevel> 调试开始");
+
+		TNode root = createTree();
+		List<TNode> nodelist = null;
+
+		for (int i = 1; i <= 5; i++) {
+			nodelist = d.treeLevel(root, i);
+			log.log(Level.INFO, "测试用例"+i+":第" + i + "层测试");
+
+			for (int j = (int) Math.pow(2, i - 1) - 1; j <= (int) (Math.pow(2,
+					i - 1) - 1) * 2
+					&& j <= Integer.valueOf(nodelist.get(nodelist.size() - 1)
+							.getValue()); j++) {
+				log.log(Level.INFO,
+						"j>"
+								+ j
+								+ ",nodevalue>"
+								+ nodelist
+										.get(j - (int) Math.pow(2, i - 1) + 1)
+										.getValue());
+				Assert.assertEquals(String.valueOf(j),
+						nodelist.get(j - (int) Math.pow(2, i - 1) + 1)
+								.getValue());
+			}
+		}
+
+		log.log(Level.INFO, "treeLevel> 调试结束");
+	}
+
+	/**
+	 * 创建4层完全二叉树
+	 * <p>                 0 
+	 *                   /   \
+	 *                  1       2
+	 *                /  \      /  \
+	 *               3    4     5    6
+	 *              / \  / \   / \   / \
+	 *             7  8  9  10 11 12 13 14 
+	 *            /
+	 *           15
+	 * @return 树根节点
+	 */
+	private TNode createTree() {
 		TNode[] t = new TNode[16];
-		for(int i=0;i<16;i++){
+		for (int i = 0; i < 16; i++) {
 			t[i] = new TNode();
 			t[i].setValue(Integer.toString(i));
 		}
-		
-/*		t[0].setLeft(t[1]);//				                0
-		t[0].right = t[2];//		                  /   \	
-		t[1].left = t[3];//                         1       2
-		t[1].right = t[4];//                      /  \      /  \
-		t[2].left = t[5];//                     3    4     5    6
-		t[2].right = t[6];//                   / \  / \   / \   / \  
-		t[3].left = t[7];//                   7  8  9  10 11 12 13 14
-		t[3].right = t[8];//                 /
-		t[4].left = t[9];//                 15
-		t[4].right = t[10];
-		t[5].left = t[11];
-		t[5].right = t[12];
-		t[6].left = t[13];
-		t[6].right = t[14];
-		t[7].left = t[15];*/
-		
-//		int tmp = d.TreeLevel(t[0],3);
-		System.out.println();
-//		Assert.assertEquals(8, tmp);
+
+		t[0].setLeft(t[1]);
+		t[0].setRight(t[2]);
+		t[1].setLeft(t[3]);
+		t[1].setRight(t[4]);
+		t[2].setLeft(t[5]);
+		t[2].setRight(t[6]);
+		t[3].setLeft(t[7]);
+		t[3].setRight(t[8]);
+		t[4].setLeft(t[9]);
+		t[4].setRight(t[10]);
+		t[5].setLeft(t[11]);
+		t[5].setRight(t[12]);
+		t[6].setLeft(t[13]);
+		t[6].setRight(t[14]);
+		t[7].setLeft(t[15]);
+
+		return t[0];
 	}
 
 }
