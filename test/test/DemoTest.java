@@ -15,7 +15,7 @@ public class DemoTest {
 	// 日志记录对象
 	private static final Logger log = Logger.getLogger(Demo.class.getName());
 	// 待测试对象
-	private Demo demo = new Demo();
+	private static final Demo demo = new Demo();
 
 	/**
 	 * 测试方法：文件内容转换成byte数组
