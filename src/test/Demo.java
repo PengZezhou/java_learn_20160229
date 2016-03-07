@@ -61,9 +61,6 @@ public class Demo {
 			bytes = bos.toByteArray();
 			log.log(Level.INFO, "文件开始转换为字节数组结束");
 			return bytes;
-		} catch (Exception e) {
-			log.log(Level.SEVERE, "文件转换为字节数组出现异常");
-			return null;
 		} finally {
 			try {
 				fis.close();
@@ -157,13 +154,11 @@ public class Demo {
 	 * @return 二叉树不存在或左右节点不存在返回0，否则记录找到的节点数到list，返回其个数
 	 */
 	private int findNode(TNode tree, int n, List<TNode> nodeList) {
-		if (tree == null || n <= 0)
-			return 0;
-		if (1 == n) {
+		if (1 == n && tree != null) {
 			nodeList.add(tree);
 			return 1;
 		}
-		return findNode(tree.getLeft(), n - 1, nodeList)
-				+ findNode(tree.getRight(), n - 1, nodeList);
+		return (tree == null || n <= 0) ? 0 : findNode(tree.getLeft(), n - 1,
+				nodeList) + findNode(tree.getRight(), n - 1, nodeList);
 	}
 }
