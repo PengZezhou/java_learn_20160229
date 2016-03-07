@@ -63,12 +63,16 @@ public class Demo {
 			return bytes;
 		} finally {
 			try {
-				fis.close();
+				if (fis != null) {
+					fis.close();
+				}
 			} catch (IOException e) {
 				log.log(Level.SEVERE, "FileInputStream 流关闭出现异常");
 			}
 			try {
-				bos.close();
+				if (fis != null) {
+					bos.close();
+				}
 			} catch (IOException e) {
 				log.log(Level.SEVERE, "ByteArrayOutputStream 流关闭出现异常");
 			}

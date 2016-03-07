@@ -13,7 +13,7 @@ import junit.framework.Assert;
 public class DemoTest {
 
 	// 日志记录对象
-	private Logger log = Logger.getLogger(Demo.class.getName());
+	private static final Logger log = Logger.getLogger(Demo.class.getName());
 	// 待测试对象
 	private Demo demo = new Demo();
 
