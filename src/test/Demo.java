@@ -62,19 +62,19 @@ public class Demo {
 			log.log(Level.INFO, "文件开始转换为字节数组结束");
 			return bytes;
 		} finally {
-			try {
-				if (fis != null) {
+			if (fis != null) {
+				try {
 					fis.close();
+				} catch (IOException e) {
+					log.log(Level.SEVERE, "FileInputStream 流关闭出现异常");
 				}
-			} catch (IOException e) {
-				log.log(Level.SEVERE, "FileInputStream 流关闭出现异常");
 			}
-			try {
-				if (fis != null) {
+			if (bos != null) {
+				try {
 					bos.close();
+				} catch (IOException e) {
+					log.log(Level.SEVERE, "ByteArrayOutputStream 流关闭出现异常");
 				}
-			} catch (IOException e) {
-				log.log(Level.SEVERE, "ByteArrayOutputStream 流关闭出现异常");
 			}
 		}
 	}
