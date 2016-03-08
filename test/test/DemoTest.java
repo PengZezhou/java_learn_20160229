@@ -30,7 +30,7 @@ public class DemoTest {
 		file = new File(System.getProperty("user.dir")
 				+ "\\test\\test\\file.txt");
 		String str = "it is a test for file2buf .";
-		Assert.assertEquals(str, new String(start2Buf(file), "UTF-8"));
+		Assert.assertEquals(str, new String(start2Buf(file), System.getProperty("file.encoding")));
 
 		file = new File(System.getProperty("user.dir") + "\\test\\test");
 		Assert.assertNull(start2Buf(file));
