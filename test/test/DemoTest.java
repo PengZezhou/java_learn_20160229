@@ -65,7 +65,7 @@ public class DemoTest {
 		try {
 			bytes = demo.file2buf(file);
 		} catch (Exception e) {
-			log.log(Level.WARNING, "转换过程捕获到异常");
+			log.log(Level.WARNING, e.toString());
 		}
 		return bytes;
 	}
@@ -89,21 +89,33 @@ public class DemoTest {
 	 */
 	@Test
 	public void testTreeLevel() {
-		TNode root = createTree();
+		TNode root = createTree1();
 
-		testCaseTree1(root);
+		testTreeCase1(root);
 
 		root = null;
-		testCaseTree1(root);
+		testTreeCase1(root);
 
-		root = createTree();
-		testCaseTree2(root, -1);
+		root = createTree1();
+		testTreeCase2(root, -1);
 
-		root = createTree();
-		testCaseTree2(root, Integer.MAX_VALUE);
+		root = createTree1();
+		testTreeCase2(root, Integer.MAX_VALUE);
 
-		root = createTree();
-		testCaseTree2(root, Integer.MIN_VALUE);
+		root = createTree1();
+		testTreeCase2(root, Integer.MIN_VALUE);
+
+		root = createTree2();
+		testTreeCase3(root, 1);
+
+		testTreeCase3(root, -1);
+
+		testTreeCase3(root, Integer.MAX_VALUE);
+
+		testTreeCase3(root, Integer.MIN_VALUE);
+
+		root = null;
+		testTreeCase3(root, 1);
 	}
 
 	/**
@@ -113,7 +125,7 @@ public class DemoTest {
 	 * 
 	 * @return 树根节点
 	 */
-	private TNode createTree() {
+	private TNode createTree1() {
 		TNode[] t = new TNode[16];
 		for (int i = 0; i < 16; i++) {
 			t[i] = new TNode();
@@ -145,11 +157,11 @@ public class DemoTest {
 	 * @param root
 	 *            根节点
 	 */
-	private void testCaseTree1(TNode root) {
+	private void testTreeCase1(TNode root) {
 		List<TNode> nodelist = null;
 		for (int i = 1; i <= 5; i++) {
 			nodelist = demo.treeLevel(root, i);
-			if (nodelist == null) {
+			if (0 == nodelist.size()) {
 				return;
 			}
 			int start = (int) Math.pow(2, i - 1) - 1;
@@ -170,9 +182,76 @@ public class DemoTest {
 	 * @param root
 	 *            树根节点
 	 */
-	private void testCaseTree2(TNode root, int n) {
+	private void testTreeCase2(TNode root, int n) {
 		List<TNode> nodelist = null;
 		nodelist = demo.treeLevel(root, n);
-		Assert.assertEquals(null, nodelist);
+		Assert.assertEquals(0, nodelist.size());
+	}
+	
+	/**
+	 * 非完全二叉树的创建
+	 * <p>
+	 * <CODE>
+	 * TNode root = createTree2();
+	 * </CODE>
+	 * @return 根节点
+	 */
+	private TNode createTree2(){
+		TNode[] t = new TNode[10];
+		for (int i = 0; i < 10; i++) {
+			t[i] = new TNode();
+			t[i].setValue(Integer.toString(i));
+		}
+
+		t[0].setLeft(t[1]);
+		t[0].setRight(t[2]);
+		t[1].setLeft(t[3]);
+		t[2].setLeft(t[4]);
+		t[2].setRight(t[5]);
+		t[3].setLeft(t[6]);
+		t[4].setLeft(t[7]);
+		t[4].setRight(t[8]);
+		t[5].setRight(t[9]);
+		
+		return t[0];
+	}
+	
+	/**
+	 * 非完全二叉树测试用例
+	 * @param root 根节点
+	 * @param n 层数
+	 */
+	private void testTreeCase3(TNode root, int n) {
+		List<TNode> nodelist = null;
+		nodelist = demo.treeLevel(root, n);
+		if (n < 1 || n > 4 || root == null) {
+			Assert.assertEquals(0, nodelist.size());
+			return;
+		}
+		for (int i = 1; i <= 4; i++) {
+			nodelist = demo.treeLevel(root, i);
+			switch (i) {
+			case 1:
+				Assert.assertEquals("0", nodelist.get(0).getValue());
+				break;
+			case 2:
+				Assert.assertEquals("1", nodelist.get(0).getValue());
+				Assert.assertEquals("2", nodelist.get(1).getValue());
+				break;
+			case 3:
+				Assert.assertEquals("3", nodelist.get(0).getValue());
+				Assert.assertEquals("4", nodelist.get(1).getValue());
+				Assert.assertEquals("5", nodelist.get(2).getValue());
+				break;
+			case 4:
+				Assert.assertEquals("6", nodelist.get(0).getValue());
+				Assert.assertEquals("7", nodelist.get(1).getValue());
+				Assert.assertEquals("8", nodelist.get(2).getValue());
+				Assert.assertEquals("9", nodelist.get(3).getValue());
+				break;
+			default:
+				break;
+			}
+		}
 	}
 }
