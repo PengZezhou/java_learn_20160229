@@ -1,6 +1,6 @@
 package test;
 
-import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -47,34 +47,33 @@ public class Demo {
 
 		log.log(Level.INFO, "文件开始转换为字节数组...");
 		FileInputStream fis = null;
-		ByteArrayOutputStream bos = null;
-		byte[] bytes = null;
 
 		try {
 			fis = new FileInputStream(fobj);
-			bos = new ByteArrayOutputStream((int) fobj.length());
-			byte[] b = new byte[4096];
+			byte[] b = new byte[(int) fobj.length()];
+			int off = 0;
+			int len = 4096;
 			int n;
-			while ((n = fis.read(b)) != -1) {
-				bos.write(b, 0, n);
+			while ((n = fis.read(b, off, len)) != -1) {
+				off += n;
 			}
-			bytes = bos.toByteArray();
 			log.log(Level.INFO, "文件开始转换为字节数组结束");
-			return bytes;
+			return b;
 		} finally {
-			if (fis != null) {
-				try {
-					fis.close();
-				} catch (IOException e) {
-					log.log(Level.SEVERE, "FileInputStream 流关闭出现异常");
-				}
-			}
-			if (bos != null) {
-				try {
-					bos.close();
-				} catch (IOException e) {
-					log.log(Level.SEVERE, "ByteArrayOutputStream 流关闭出现异常");
-				}
+			closeStream(fis);
+		}
+	}
+	
+	/**
+	 * 内部方法，关闭流的逻辑封装
+	 * @param closeavle 流对象
+	 */
+	private static final void closeStream(Closeable closeavle) {
+		if (closeavle != null) {
+			try {
+				closeavle.close();
+			} catch (IOException e) {
+				log.log(Level.SEVERE, closeavle.toString() + " 流关闭出现异常");
 			}
 		}
 	}
@@ -126,17 +125,17 @@ public class Demo {
 	 * @return 节点集合
 	 */
 	public List<TNode> treeLevel(TNode tree, int n) {
-		if (tree == null || n <= 0) {
-			log.log(Level.SEVERE, "参数非法,tree == null || n <= 0");
-			return null;
-		}
 		// 二叉树层节点保存
 		List<TNode> nodeList = new LinkedList<TNode>();
+		if (tree == null || n <= 0) {
+			log.log(Level.SEVERE, "参数非法,tree == null || n <= 0");
+			return nodeList;
+		}
 		log.log(Level.INFO, "开始查找第" + n + "层节点");
 		findNode(tree, n, nodeList);
 		if (0 == nodeList.size()) {
 			log.log(Level.SEVERE, "树的第" + n + "层没有节点");
-			return null;
+			return nodeList;
 		}
 		log.log(Level.INFO, "已保存第" + n + "层节点");
 		return nodeList;
