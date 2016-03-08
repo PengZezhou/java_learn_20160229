@@ -41,9 +41,12 @@ public class DemoTest {
 
 		file = null;
 		Assert.assertNull(start2Buf(file));
-
+		
 		file = new File("D:\\MicrosoftVisualStudio2008Professional.ISO");
 		Assert.assertNull(start2Buf(file));
+		
+		file = new File("D:\\电子书\\java多线程设计模式.pdf");
+		Assert.assertNotNull(start2Buf(file));
 	}
 
 	/**

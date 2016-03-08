@@ -51,7 +51,19 @@ public class Demo {
 		try {
 			fis = new FileInputStream(fobj);
 			byte[] b = new byte[(int) fobj.length()];
-			fis.read(b, 0, b.length);
+			int n = 0;
+			int off = 0;
+			int len = b.length < 4096 ? b.length : 4096;
+			while ((n = fis.read(b, off, len)) != -1) {
+				if (-1 == n) {
+					break;
+				}
+				off += n;
+				if (off >= b.length) {
+					break;
+				}
+				len = len > b.length - off ? b.length - off : len;
+			}
 			log.log(Level.INFO, "文件开始转换为字节数组结束");
 			return b;
 		} finally {
