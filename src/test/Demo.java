@@ -51,19 +51,14 @@ public class Demo {
 		try {
 			fis = new FileInputStream(fobj);
 			byte[] b = new byte[(int) fobj.length()];
-			int off = 0;
-			int len = 4096;
-			int n;
-			while ((n = fis.read(b, off, len)) != -1) {
-				off += n;
-			}
+			fis.read(b, 0, b.length);
 			log.log(Level.INFO, "文件开始转换为字节数组结束");
 			return b;
 		} finally {
 			closeStream(fis);
 		}
 	}
-	
+
 	/**
 	 * 内部方法，关闭流的逻辑封装
 	 * @param closeavle 流对象
