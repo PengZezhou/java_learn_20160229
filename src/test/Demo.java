@@ -55,9 +55,6 @@ public class Demo {
 			int off = 0;
 			int len = b.length < 4096 ? b.length : 4096;
 			while ((n = fis.read(b, off, len)) != -1) {
-				if (-1 == n) {
-					break;
-				}
 				off += n;
 				if (off >= b.length) {
 					break;
