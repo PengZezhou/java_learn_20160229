@@ -1,6 +1,7 @@
 package test;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,14 +20,17 @@ public class DemoTest {
 
 	/**
 	 * 测试方法：文件内容转换成byte数组
+	 * 
+	 * @throws UnsupportedEncodingException
 	 */
 	@Test
-	public void testFile2buf() {
+	public void testFile2buf() throws UnsupportedEncodingException {
 		File file = null;
 
 		file = new File(System.getProperty("user.dir")
 				+ "\\test\\test\\file.txt");
-		Assert.assertNotNull(start2Buf(file));
+		String str = "it is a test for file2buf .";
+		Assert.assertEquals(str, new String(start2Buf(file), "UTF-8"));
 
 		file = new File(System.getProperty("user.dir") + "\\test\\test");
 		Assert.assertNull(start2Buf(file));
@@ -187,16 +191,17 @@ public class DemoTest {
 		nodelist = demo.treeLevel(root, n);
 		Assert.assertEquals(0, nodelist.size());
 	}
-	
+
 	/**
 	 * 非完全二叉树的创建
 	 * <p>
 	 * <CODE>
 	 * TNode root = createTree2();
 	 * </CODE>
+	 * 
 	 * @return 根节点
 	 */
-	private TNode createTree2(){
+	private TNode createTree2() {
 		TNode[] t = new TNode[10];
 		for (int i = 0; i < 10; i++) {
 			t[i] = new TNode();
@@ -212,14 +217,17 @@ public class DemoTest {
 		t[4].setLeft(t[7]);
 		t[4].setRight(t[8]);
 		t[5].setRight(t[9]);
-		
+
 		return t[0];
 	}
-	
+
 	/**
 	 * 非完全二叉树测试用例
-	 * @param root 根节点
-	 * @param n 层数
+	 * 
+	 * @param root
+	 *            根节点
+	 * @param n
+	 *            层数
 	 */
 	private void testTreeCase3(TNode root, int n) {
 		List<TNode> nodelist = null;
